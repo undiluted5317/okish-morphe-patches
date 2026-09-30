@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-09-30T15:14:20",
-  "description": "## [1.37.0-dev.1](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.36.0...v1.37.0-dev.1) (2026-09-30)\n\n### ✨ New Features\n\n* **injustice:** add last laugh ticket grant patch ([7629e25](https://github.com/undiluted5317/okish-morphe-patches/commit/7629e252d5c6a2efff6d55af8e207aa92ba40687))",
-  "download_url": "https://github.com/undiluted5317/okish-morphe-patches/releases/download/v1.37.0-dev.1/patches-1.37.0-dev.1.mpp",
+  "created_at": "2026-09-30T16:12:39",
+  "description": "## [1.37.0-dev.2](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.37.0-dev.1...v1.37.0-dev.2) (2026-09-30)\n\n### 🐛 Bug Fixes\n\n* **injustice:** grant last laugh tickets at main menu entry ([7b02e1e](https://github.com/undiluted5317/okish-morphe-patches/commit/7b02e1e33aabf9893a9274d9563124e8e55dbbcc))",
+  "download_url": "https://github.com/undiluted5317/okish-morphe-patches/releases/download/v1.37.0-dev.2/patches-1.37.0-dev.2.mpp",
   "signature_download_url": "",
-  "version": "1.37.0-dev.1"
+  "version": "1.37.0-dev.2"
 }

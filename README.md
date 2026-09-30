@@ -35,7 +35,7 @@ Direct URL:
 ## 🩹 Patches list
 
 <!-- PATCHES_START -->
-> **[v1.37.0-dev.1](https://github.com/undiluted5317/okish-morphe-patches/releases/tag/v1.37.0-dev.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;81 patches total
+> **[v1.37.0-dev.2](https://github.com/undiluted5317/okish-morphe-patches/releases/tag/v1.37.0-dev.2)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;81 patches total
 <details>
 <summary>📦 Into the Dead 2&nbsp;&nbsp;•&nbsp;&nbsp;4 patches</summary>
 <br>
@@ -305,7 +305,7 @@ Direct URL:
 |----------|----------------|-----------|
 | [Injustice Ads Removal](#injustice-ads-removal) | Get stamina without watching ad Video. |  |
 | [Injustice Billing Bypass](#injustice-billing-bypass) | Bypass billing get the items in store for free. |  |
-| [Injustice Last Laugh Tickets](#injustice-last-laugh-tickets) | Awards 60 Last Laugh tickets every time the game launches. |  |
+| [Injustice Last Laugh Tickets](#injustice-last-laugh-tickets) | Awards 60 Last Laugh tickets every time the main menu is reached. |  |
 
 </details>
 

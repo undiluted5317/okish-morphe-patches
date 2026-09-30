@@ -1,3 +1,9 @@
+## [1.37.0-dev.2](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.37.0-dev.1...v1.37.0-dev.2) (2026-09-30)
+
+### 🐛 Bug Fixes
+
+* **injustice:** grant last laugh tickets at main menu entry ([7b02e1e](https://github.com/undiluted5317/okish-morphe-patches/commit/7b02e1e33aabf9893a9274d9563124e8e55dbbcc))
+
 ## [1.37.0-dev.1](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.36.0...v1.37.0-dev.1) (2026-09-30)
 
 ### ✨ New Features
