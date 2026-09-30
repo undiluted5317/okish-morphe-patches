@@ -16,7 +16,7 @@ private const val TICKETS_PER_SURVIVOR_EVENT = 60
 // Substring matched against native analytics event names. Survivor-mode events are
 // composed by UNRSMultiAnalytics::MakeEventName from names that contain "Survivor"
 // (LogSurvivorMatchEnd/MatchStart/LadderStart/Exit/CashOut/ModeClicked/PurchaseCooldown/
-// PurchaseHPBoost), so a case-insensitive tail match like this catches all of them.
+// PurchaseHPBoost), so a tail match like this catches all of them.
 private const val SURVIVOR_EVENT_MARKER = "urvivor"
 
 // Smali reference to the JNI console-command bridge. Verified against classes.dex:
@@ -30,74 +30,98 @@ private const val DEF_EG_ENGINE_CMD_REF =
     "Lcom/epicgames/virtuos/UnrealEngine3/UE3JavaApp;->NativeCallback_DefeGEngineCmd(Ljava/lang/String;)V"
 
 /**
- * Injustice: Gods Among Us — Last Laugh Tickets
+ * Injustice: Gods Among Us — Last Laugh Tickets (Menu)
  *
- * Awards Last Laugh ("Joker's Wild") tickets from the Java side of the JNI boundary,
- * using the game's own console-command bridge — twice:
+ * Awards $TICKETS_AT_MAIN_MENU Last Laugh ("Joker's Wild") tickets when the main menu is
+ * entered, from the Java side of the JNI boundary using the game's own console-command
+ * bridge (AddJokerTickets → UInjusticeFrontendCheatManager::AddJokerTickets →
+ * UPlayerSaveData::IncrementNumJokersWildTickets, the sole ticket-increment path in
+ * libInjusticeGAU.so — see analysis/injustice/notes/survivor-last-laugh.md).
  *
- *   1. $TICKETS_AT_MAIN_MENU tickets when the main menu is entered
- *      (JavaCallback_AlreadyEnterMainMenu — the native→Java callback the engine invokes
- *      when the frontend is up).
- *   2. $TICKETS_PER_SURVIVOR_EVENT tickets after every Survivor-mode game event
- *      (JavaCallback_SwrveOnEvent — the native analytics funnel). Survivor battles flow
- *      through UInjusticeAnalytics::LogSurvivorMatchEnd and friends, so each battle
- *      start/end, ladder start, cash-out etc. fires a grant. This is the "invoke the
- *      grant multiple times after every survivor battle" decorator: the hook wraps the
- *      native→Java event call, matches "urvivor" in the event name, and re-enters the
- *      native grant.
+ * Anchor: the START of JavaCallback_AlreadyEnterMainMenu()V (UE3JavaApp.smali:5932) — a
+ * native→Java callback the engine invokes at the moment the main menu is entered, so the
+ * engine and frontend are provably running (the same lifecycle moment the game's own
+ * Swrve command bridge runs; its name is a JNI GetMethodID string and can never be
+ * renamed). The first revision granted from ContinueOnCreate and crashed instantly:
+ * the command bridge dereferences engine state that does not exist during startup.
  *
- * Background (from native analysis of libInjusticeGAU.so, see
- * analysis/injustice/notes/survivor-last-laugh.md): the Last Laugh minigame consumes
- * "Joker tickets" (UPlayerSaveData.GetNumJokersWildTickets / Increment / Decrement); the
- * ticket balance has no Java surface at all — awarding happens natively. The shipping
- * cheat console provides the one Java-reachable grant: the exec command
- * "AddJokerTickets" (UInjusticeFrontendCheatManager::AddJokerTickets →
- * UPlayerSaveData::IncrementNumJokersWildTickets, the sole ticket-increment path).
+ * Register budget: .registers 3 (v0, v1, p0). The block is prepended and uses only v0,
+ * which the original first instruction re-defines immediately (`const/4 v0, 0x1`).
  *
- * Register budget:
- *   - JavaCallback_AlreadyEnterMainMenu: .registers 3 (v0, v1, p0). The block is
- *     prepended and uses only v0, which the original first instruction re-defines
- *     immediately (`const/4 v0, 0x1`).
- *   - JavaCallback_SwrveOnEvent: .registers 3 (p0, p1, p2) — no locals. The block is
- *     APPENDED after the original `Swrve.OnEvent(p1, p2)` call, so the analytics payload
- *     is already delivered and p1/p2 are free scratch (the event name is consumed first,
- *     the payload last). No register expansion, no clobbered live values.
+ * Split from the per-battle grant so the two triggers can be enabled independently —
+ * if anything ever crashes, the enabled half identifies the trigger.
  *
- * Risk: MEDIUM —
- *   1. RUNTIME VERIFY: assumes `AddJokerTickets` is routed by the engine's
- *      console-command dispatcher to UInjusticeFrontendCheatManager in this shipping
- *      build (the class + exec bindings ship in the .so). To verify: install, reach the
- *      main menu, and check the Last Laugh ticket counter moved by $TICKETS_AT_MAIN_MENU;
- *      finish a Survivor battle and check it moved again by $TICKETS_PER_SURVIVOR_EVENT.
- *   2. Same caveat as the repo's other Injustice patches: WBID cloud-save sync is
- *      server-authoritative; un-backed grants may be reverted on a cloud-save load.
+ * Risk: MEDIUM — RUNTIME VERIFY the console-command routing (see the per-battle patch);
+ * WBID cloud-save sync is server-authoritative and may revert un-backed grants.
  */
 @Suppress("unused")
-val injusticeLastLaughTicketsPatch = bytecodePatch(
-    name = "Injustice Last Laugh Tickets",
-    description = "Awards 60 Last Laugh tickets at the main menu and 60 more after every Survivor mode event (match start/end, cash out, ...).",
+val injusticeLastLaughMenuPatch = bytecodePatch(
+    name = "Injustice Last Laugh Tickets (Menu)",
+    description = "Awards 60 Last Laugh tickets every time the main menu is reached.",
     default = true
 ) {
     compatibleWith(COMPATIBILITY_INJUSTICE)
 
     execute {
-        // (1) Main-menu entry grant.
         MainMenuEnteredFingerprint.method.addInstructions(0, """
             const-string v0, "AddJokerTickets $TICKETS_AT_MAIN_MENU"
             invoke-static {v0}, $DEF_EG_ENGINE_CMD_REF
         """.trimIndent())
+    }
+}
 
-        // (2) Per-Survivor-event grant, appended after the analytics fan-out call.
+/**
+ * Injustice: Gods Among Us — Last Laugh Tickets (Per Battle)
+ *
+ * Awards $TICKETS_PER_SURVIVOR_EVENT Last Laugh tickets after every Survivor-mode game
+ * event — the "invoke the grant multiple times after every survivor battle" decorator.
+ *
+ * Seam: JavaCallback_SwrveOnEvent(String, String)V (UE3JavaApp.smali:7830) — the
+ * native→Java analytics funnel. Survivor battles flow through native
+ * UInjusticeAnalytics::LogSurvivorMatchEnd and friends (MatchStart, LadderStart, Exit,
+ * CashOut, ...), which compose event names via UNRSMultiAnalytics::MakeEventName and fan
+ * out to the Java bridges through CallJava_SwrveOnEvent(wchar*, wchar*), landing here as
+ * (eventName, payload).
+ *
+ * The original body is two instructions (`Swrve.OnEvent(p1, p2)` + `return-void`), with
+ * .registers 3 (p0=this, p1=eventName, p2=payload) and NO locals. The block is APPENDED
+ * after the OnEvent invoke, so the analytics payload is already delivered and the
+ * parameters are free scratch afterwards.
+ *
+ * Register/verifier discipline (the previous revision crashed the app by merging p2 as
+ * int on one path and object on the other — an ART verifier conflict in UE3JavaApp):
+ *   - p1 (eventName) is used as the receiver, then becomes the boolean and stays int on
+ *     every path afterwards. It is null-checked first: native analytics may deliver a
+ *     null name, and an unguarded invoke-virtual would NPE inside a JNI callback.
+ *   - p2 only ever holds objects (payload / "urvivor" / the command string), so the
+ *     merge at the branch target is type-consistent.
+ *
+ * Risk: MEDIUM — RUNTIME VERIFY: assumes `AddJokerTickets` is routed to
+ * UInjusticeFrontendCheatManager by the engine's command dispatcher (the class + exec
+ * bindings ship in the .so). To verify: install with only this patch, finish a Survivor
+ * battle, and check the Last Laugh ticket counter moved by $TICKETS_PER_SURVIVOR_EVENT.
+ * WBID cloud-save caveat applies as for the repo's other Injustice patches.
+ */
+@Suppress("unused")
+val injusticeLastLaughBattlePatch = bytecodePatch(
+    name = "Injustice Last Laugh Tickets (Per Battle)",
+    description = "Awards 60 Last Laugh tickets after every Survivor mode event (match start/end, cash out, ...).",
+    default = true
+) {
+    compatibleWith(COMPATIBILITY_INJUSTICE)
+
+    execute {
         val swrve = SwrveEventFingerprint.method
         val anchor = swrve.indexOfFirstInstructionOrThrow {
             opcode == Opcode.INVOKE_STATIC &&
                 getReference<MethodReference>()?.name == "OnEvent"
         }
         swrve.addInstructions(anchor + 1, """
+            if-eqz p1, :cond_done
             const-string p2, "$SURVIVOR_EVENT_MARKER"
             invoke-virtual {p1, p2}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
-            move-result p2
-            if-eqz p2, :cond_done
+            move-result p1
+            if-eqz p1, :cond_done
             const-string p2, "AddJokerTickets $TICKETS_PER_SURVIVOR_EVENT"
             invoke-static {p2}, $DEF_EG_ENGINE_CMD_REF
             :cond_done

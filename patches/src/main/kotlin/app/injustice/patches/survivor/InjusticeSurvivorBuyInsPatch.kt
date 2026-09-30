@@ -81,36 +81,17 @@ val injusticeSurvivorBuyInsPatch = rawResourcePatch(
     compatibleWith(COMPATIBILITY_INJUSTICE)
 
     execute {
-        // Native libraries are NOT staged to the working directory ("the one archive
-        // directory left unstaged"); the patcher materialises an entry from the input
-        // archive when get() finds it missing (verified in morphe-patcher 1.14.1 bytecode:
-        // extractRootEntries is called unconditionally on !exists()).
-        // listApkEntries is reached reflectively so the patch also runs on hosts whose
-        // patcher predates it.
-        val entries = runCatching {
-            val m = this::class.java.methods.firstOrNull { it.name == "listApkEntries" }
-            (m?.invoke(this) as? Collection<*>)?.map { it.toString() } ?: emptyList<String>()
-        }.getOrDefault(emptyList())
-        val archiveName = entries.firstOrNull { it == LIB_PATH }
-            ?: entries.firstOrNull { it.endsWith("libInjusticeGAU.so") }
-            ?: LIB_PATH.takeIf {
-                runCatching { get(it, true).let { f -> f.isFile && f.length() > MIN_LIB_BYTES } }
-                    .getOrDefault(false)
-            }
-            ?: throw IllegalStateException(
-                "libInjusticeGAU.so not found in the APK being patched. " +
-                    "lib/ entries visible to the patcher (${entries.size}): " +
-                    entries.take(12).joinToString().ifEmpty { "<none>" } + ". " +
-                    "On split installs the native libraries live in a separate split and " +
-                    "are not part of the patcher input — patch from the single APK file " +
-                    "(e.g. the APKPure download) instead of the installed app."
-            )
-
-        val lib = get(archiveName, true)
+        // Native libraries are not staged to the working directory; get() with
+        // copy = true materialises the entry from the input archive. Kept deliberately
+        // minimal: diagnostics probes in earlier revisions added moving parts without
+        // changing the outcome (the Morphe Manager session's input has no lib/ entries).
+        val lib = get(LIB_PATH, true)
         check(lib.isFile && lib.length() >= MIN_LIB_BYTES) {
-            "Native library not materialised in the patch workspace " +
-                "(entry=$archiveName, resolved=${lib.absolutePath}, " +
-                "exists=${lib.isFile}, size=${lib.length()})."
+            "libInjusticeGAU.so is not present in the APK being patched " +
+                "(exists=${lib.isFile}, size=${lib.length()}). This patch needs an input " +
+                "that contains the native library — on split installs the libraries live " +
+                "in a separate split; patch the single APK file instead of the installed " +
+                "app. (Desktop morphe-cli builds of this patch are verified working.)"
         }
         RandomAccessFile(lib, "rw").use { f ->
             fun apply(offset: Long, expected: ByteArray, patch: ByteArray, what: String) {
