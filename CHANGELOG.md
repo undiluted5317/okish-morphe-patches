@@ -1,3 +1,9 @@
+## [1.38.0-dev.3](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.38.0-dev.2...v1.38.0-dev.3) (2026-09-30)
+
+### 🐛 Bug Fixes
+
+* **injustice:** diagnose missing native lib in buy-ins patch ([e3a838c](https://github.com/undiluted5317/okish-morphe-patches/commit/e3a838c46931666d21dc392b5a8ed5ed0e27f25f))
+
 ## [1.38.0-dev.2](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.38.0-dev.1...v1.38.0-dev.2) (2026-09-30)
 
 ### 🐛 Bug Fixes
