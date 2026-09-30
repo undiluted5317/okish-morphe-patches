@@ -1,3 +1,9 @@
+## [1.39.1](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.39.0...v1.39.1) (2026-09-30)
+
+### 🐛 Bug Fixes
+
+* **injustice:** verifier-safe last laugh hooks ([bd1ede9](https://github.com/undiluted5317/okish-morphe-patches/commit/bd1ede983ac78b1de9cbb9f9acb2ea93ed31d96a))
+
 ## [1.39.0](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.38.2...v1.39.0) (2026-09-30)
 
 ### ✨ New Features
