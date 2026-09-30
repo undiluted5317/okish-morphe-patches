@@ -78,7 +78,17 @@ val injusticeSurvivorBuyInsPatch = rawResourcePatch(
     compatibleWith(COMPATIBILITY_INJUSTICE)
 
     execute {
-        val lib = get(LIB_PATH, false)
+        // copy = true is required: native libraries are NOT staged to the working directory
+        // ("the one archive directory left unstaged"); the patcher extracts the entry from
+        // the input APK on demand only when get() is asked for a copy. This matches the
+        // official HermesPatch pattern (get(path, true)).
+        val lib = get(LIB_PATH, true)
+        check(lib.isFile && lib.length() >= COOLDOWN_GATE_OFFSET + 12) {
+            "Native library not materialised in the patch workspace " +
+                "(exists=${lib.isFile}, size=${lib.length()}) — expected at $LIB_PATH. " +
+                "If this is a Morphe Manager session, update the Manager/patcher " +
+                "(needs the lazy native-lib extraction) or disable library stripping."
+        }
         RandomAccessFile(lib, "rw").use { f ->
             fun apply(offset: Long, expected: ByteArray, patch: ByteArray, what: String) {
                 val current = ByteArray(expected.size)
