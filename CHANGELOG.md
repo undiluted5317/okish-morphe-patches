@@ -1,3 +1,9 @@
+## [1.38.1](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.38.0...v1.38.1) (2026-09-30)
+
+### 🐛 Bug Fixes
+
+* **injustice:** extract native lib in survivor buy-ins patch ([e27e234](https://github.com/undiluted5317/okish-morphe-patches/commit/e27e234ecef19927465047e8ed1b0989bdc09016))
+
 ## [1.38.0](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.37.1...v1.38.0) (2026-09-30)
 
 ### ✨ New Features
