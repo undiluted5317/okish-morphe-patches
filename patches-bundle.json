@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-09-30T11:38:56",
-  "description": "## [1.36.0](https://github.com/byehi98/okish-morphe-patches/compare/v1.35.1...v1.36.0) (2026-09-30)\n\n### ✨ New Features\n\n* **deadtrigger:** add free store patch ([8d5fbf3](https://github.com/byehi98/okish-morphe-patches/commit/8d5fbf36d6e6310472bca935ac3d27974d19d83c))",
-  "download_url": "https://github.com/byehi98/okish-morphe-patches/releases/download/v1.36.0/patches-1.36.0.mpp",
+  "created_at": "2026-09-30T15:18:39",
+  "description": "## [1.37.0](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.36.0...v1.37.0) (2026-09-30)\n\n### ✨ New Features\n\n* **injustice:** add last laugh ticket grant patch ([7629e25](https://github.com/undiluted5317/okish-morphe-patches/commit/7629e252d5c6a2efff6d55af8e207aa92ba40687))",
+  "download_url": "https://github.com/undiluted5317/okish-morphe-patches/releases/download/v1.37.0/patches-1.37.0.mpp",
   "signature_download_url": "",
-  "version": "1.36.0"
+  "version": "1.37.0"
 }

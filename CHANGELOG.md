@@ -1,3 +1,9 @@
+## [1.37.0](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.36.0...v1.37.0) (2026-09-30)
+
+### ✨ New Features
+
+* **injustice:** add last laugh ticket grant patch ([7629e25](https://github.com/undiluted5317/okish-morphe-patches/commit/7629e252d5c6a2efff6d55af8e207aa92ba40687))
+
 ## [1.36.0](https://github.com/byehi98/okish-morphe-patches/compare/v1.35.1...v1.36.0) (2026-09-30)
 
 ### ✨ New Features
