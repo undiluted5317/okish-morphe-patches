@@ -1,3 +1,9 @@
+## [1.38.0-dev.1](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.37.1...v1.38.0-dev.1) (2026-09-30)
+
+### ✨ New Features
+
+* **injustice:** add survivor buy-ins patch ([e5a6818](https://github.com/undiluted5317/okish-morphe-patches/commit/e5a6818ef6441414a6767ef5822165c0b40babc1))
+
 ## [1.37.1](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.37.0...v1.37.1) (2026-09-30)
 
 ### 🐛 Bug Fixes
