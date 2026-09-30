@@ -16,6 +16,9 @@ private const val SKIPS_GETTER_OFFSET = 0x18fdb8cL
 // UPlayerSaveData::IsSurvivalModeCooldownInEffect() @ 0x18f7fc0, 12 bytes
 private const val COOLDOWN_GATE_OFFSET = 0x18f7fc0L
 
+// The library must at least contain the byte range this patch edits.
+private const val MIN_LIB_BYTES = COOLDOWN_GATE_OFFSET + 12
+
 private fun hex(s: String): ByteArray =
     s.replace(" ", "").chunked(2).map { it.toInt(16).toByte() }.toByteArray()
 
@@ -78,16 +81,36 @@ val injusticeSurvivorBuyInsPatch = rawResourcePatch(
     compatibleWith(COMPATIBILITY_INJUSTICE)
 
     execute {
-        // copy = true is required: native libraries are NOT staged to the working directory
-        // ("the one archive directory left unstaged"); the patcher extracts the entry from
-        // the input APK on demand only when get() is asked for a copy. This matches the
-        // official HermesPatch pattern (get(path, true)).
-        val lib = get(LIB_PATH, true)
-        check(lib.isFile && lib.length() >= COOLDOWN_GATE_OFFSET + 12) {
+        // Native libraries are NOT staged to the working directory ("the one archive
+        // directory left unstaged"); the patcher materialises an entry from the input
+        // archive when get() finds it missing (verified in morphe-patcher 1.14.1 bytecode:
+        // extractRootEntries is called unconditionally on !exists()).
+        // listApkEntries is reached reflectively so the patch also runs on hosts whose
+        // patcher predates it.
+        val entries = runCatching {
+            val m = this::class.java.methods.firstOrNull { it.name == "listApkEntries" }
+            (m?.invoke(this) as? Collection<*>)?.map { it.toString() } ?: emptyList<String>()
+        }.getOrDefault(emptyList())
+        val archiveName = entries.firstOrNull { it == LIB_PATH }
+            ?: entries.firstOrNull { it.endsWith("libInjusticeGAU.so") }
+            ?: LIB_PATH.takeIf {
+                runCatching { get(it, true).let { f -> f.isFile && f.length() > MIN_LIB_BYTES } }
+                    .getOrDefault(false)
+            }
+            ?: throw IllegalStateException(
+                "libInjusticeGAU.so not found in the APK being patched. " +
+                    "lib/ entries visible to the patcher (${entries.size}): " +
+                    entries.take(12).joinToString().ifEmpty { "<none>" } + ". " +
+                    "On split installs the native libraries live in a separate split and " +
+                    "are not part of the patcher input — patch from the single APK file " +
+                    "(e.g. the APKPure download) instead of the installed app."
+            )
+
+        val lib = get(archiveName, true)
+        check(lib.isFile && lib.length() >= MIN_LIB_BYTES) {
             "Native library not materialised in the patch workspace " +
-                "(exists=${lib.isFile}, size=${lib.length()}) — expected at $LIB_PATH. " +
-                "If this is a Morphe Manager session, update the Manager/patcher " +
-                "(needs the lazy native-lib extraction) or disable library stripping."
+                "(entry=$archiveName, resolved=${lib.absolutePath}, " +
+                "exists=${lib.isFile}, size=${lib.length()})."
         }
         RandomAccessFile(lib, "rw").use { f ->
             fun apply(offset: Long, expected: ByteArray, patch: ByteArray, what: String) {
