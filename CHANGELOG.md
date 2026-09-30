@@ -1,3 +1,9 @@
+## [1.38.0-dev.5](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.38.0-dev.4...v1.38.0-dev.5) (2026-09-30)
+
+### 🐛 Bug Fixes
+
+* **injustice:** verifier-safe last laugh hooks ([bd1ede9](https://github.com/undiluted5317/okish-morphe-patches/commit/bd1ede983ac78b1de9cbb9f9acb2ea93ed31d96a))
+
 ## [1.38.0-dev.4](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.38.0-dev.3...v1.38.0-dev.4) (2026-09-30)
 
 ### ✨ New Features

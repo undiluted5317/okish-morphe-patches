@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.38.0-dev.4",
+  "version": "1.38.0-dev.5",
   "patches": [
     {
       "name": "AD Instant Rewards",
@@ -926,8 +926,34 @@
       "options": []
     },
     {
-      "name": "Injustice Last Laugh Tickets",
-      "description": "Awards 60 Last Laugh tickets at the main menu and 60 more after every Survivor mode event (match start/end, cash out, ...).",
+      "name": "Injustice Last Laugh Tickets (Menu)",
+      "description": "Awards 60 Last Laugh tickets every time the main menu is reached.",
+      "default": true,
+      "dependencies": [],
+      "compatiblePackages": [
+        {
+          "packageName": "com.wb.goog.injustice",
+          "name": "Injustice: Gods Among Us",
+          "description": null,
+          "apkFileType": "XAPK",
+          "appIconColor": "#FFC107",
+          "signatures": null,
+          "targets": [
+            {
+              "version": "3.5.1",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Injustice Last Laugh Tickets (Per Battle)",
+      "description": "Awards 60 Last Laugh tickets after every Survivor mode event (match start/end, cash out, ...).",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [

@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-09-30T17:45:54",
-  "description": "## [1.38.0-dev.4](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.38.0-dev.3...v1.38.0-dev.4) (2026-09-30)\n\n### ✨ New Features\n\n* **injustice:** grant last laugh tickets after survivor events ([de31f73](https://github.com/undiluted5317/okish-morphe-patches/commit/de31f7343ddfd4def42458bc7a64b645d2b6390a))",
-  "download_url": "https://github.com/undiluted5317/okish-morphe-patches/releases/download/v1.38.0-dev.4/patches-1.38.0-dev.4.mpp",
+  "created_at": "2026-09-30T18:05:30",
+  "description": "## [1.38.0-dev.5](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.38.0-dev.4...v1.38.0-dev.5) (2026-09-30)\n\n### 🐛 Bug Fixes\n\n* **injustice:** verifier-safe last laugh hooks ([bd1ede9](https://github.com/undiluted5317/okish-morphe-patches/commit/bd1ede983ac78b1de9cbb9f9acb2ea93ed31d96a))",
+  "download_url": "https://github.com/undiluted5317/okish-morphe-patches/releases/download/v1.38.0-dev.5/patches-1.38.0-dev.5.mpp",
   "signature_download_url": "",
-  "version": "1.38.0-dev.4"
+  "version": "1.38.0-dev.5"
 }
