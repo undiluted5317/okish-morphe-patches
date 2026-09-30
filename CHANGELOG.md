@@ -1,3 +1,9 @@
+## [1.39.0](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.38.2...v1.39.0) (2026-09-30)
+
+### ✨ New Features
+
+* **injustice:** grant last laugh tickets after survivor events ([de31f73](https://github.com/undiluted5317/okish-morphe-patches/commit/de31f7343ddfd4def42458bc7a64b645d2b6390a))
+
 ## [1.38.2](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.38.1...v1.38.2) (2026-09-30)
 
 ### 🐛 Bug Fixes

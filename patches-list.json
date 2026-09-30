@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.38.2",
+  "version": "1.39.0",
   "patches": [
     {
       "name": "AD Instant Rewards",
@@ -927,7 +927,7 @@
     },
     {
       "name": "Injustice Last Laugh Tickets",
-      "description": "Awards 60 Last Laugh tickets every time the main menu is reached.",
+      "description": "Awards 60 Last Laugh tickets at the main menu and 60 more after every Survivor mode event (match start/end, cash out, ...).",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [
