@@ -1,3 +1,9 @@
+## [1.39.2](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.39.1...v1.39.2) (2026-10-15)
+
+### 🐛 Bug Fixes
+
+* **injustice:** support 64-bit apk in survivor buy-ins ([7a720d0](https://github.com/undiluted5317/okish-morphe-patches/commit/7a720d0a9c903e220eb63774cd5ddd0e0fbf8fd2))
+
 ## [1.39.1](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.39.0...v1.39.1) (2026-09-30)
 
 ### 🐛 Bug Fixes
