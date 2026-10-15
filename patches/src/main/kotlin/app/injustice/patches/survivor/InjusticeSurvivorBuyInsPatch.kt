@@ -95,7 +95,7 @@ private val ABIS = listOf(
 @Suppress("unused")
 val injusticeSurvivorBuyInsPatch = rawResourcePatch(
     name = "Injustice Survivor Buy-Ins",
-    description = "Unlimited Survivor mode entries: no re-entry cooldown and 1000 buy-ins.",
+    description = "Unlimited Survivor mode entries: no re-entry cooldown and 1000 buy-ins. Supports both the 32-bit and 64-bit APK builds of 3.5.1.",
     default = true
 ) {
     compatibleWith(COMPATIBILITY_INJUSTICE)

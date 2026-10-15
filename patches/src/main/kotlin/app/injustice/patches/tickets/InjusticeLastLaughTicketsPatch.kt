@@ -57,7 +57,7 @@ private const val DEF_EG_ENGINE_CMD_REF =
 @Suppress("unused")
 val injusticeLastLaughMenuPatch = bytecodePatch(
     name = "Injustice Last Laugh Tickets (Menu)",
-    description = "Awards 60 Last Laugh tickets every time the main menu is reached.",
+    description = "Awards 60 Last Laugh tickets every time the main menu is reached. Supports both the 32-bit and 64-bit APK builds of 3.5.1.",
     default = true
 ) {
     compatibleWith(COMPATIBILITY_INJUSTICE)
@@ -105,7 +105,7 @@ val injusticeLastLaughMenuPatch = bytecodePatch(
 @Suppress("unused")
 val injusticeLastLaughBattlePatch = bytecodePatch(
     name = "Injustice Last Laugh Tickets (Per Battle)",
-    description = "Awards 60 Last Laugh tickets after every Survivor mode event (match start/end, cash out, ...).",
+    description = "Awards 60 Last Laugh tickets after every Survivor mode event (match start/end, cash out, ...). Supports both the 32-bit and 64-bit APK builds of 3.5.1.",
     default = true
 ) {
     compatibleWith(COMPATIBILITY_INJUSTICE)
