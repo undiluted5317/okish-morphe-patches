@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.38.0-dev.6",
+  "version": "1.38.0-dev.7",
   "patches": [
     {
       "name": "AD Instant Rewards",
@@ -927,7 +927,7 @@
     },
     {
       "name": "Injustice Last Laugh Tickets (Menu)",
-      "description": "Awards 60 Last Laugh tickets every time the main menu is reached.",
+      "description": "Awards 60 Last Laugh tickets every time the main menu is reached. Supports both the 32-bit and 64-bit APK builds of 3.5.1.",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [
@@ -953,7 +953,7 @@
     },
     {
       "name": "Injustice Last Laugh Tickets (Per Battle)",
-      "description": "Awards 60 Last Laugh tickets after every Survivor mode event (match start/end, cash out, ...).",
+      "description": "Awards 60 Last Laugh tickets after every Survivor mode event (match start/end, cash out, ...). Supports both the 32-bit and 64-bit APK builds of 3.5.1.",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [
@@ -979,7 +979,7 @@
     },
     {
       "name": "Injustice Survivor Buy-Ins",
-      "description": "Unlimited Survivor mode entries: no re-entry cooldown and 1000 buy-ins.",
+      "description": "Unlimited Survivor mode entries: no re-entry cooldown and 1000 buy-ins. Supports both the 32-bit and 64-bit APK builds of 3.5.1.",
       "default": true,
       "dependencies": [],
       "compatiblePackages": [
