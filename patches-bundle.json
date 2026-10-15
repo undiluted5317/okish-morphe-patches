@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-10-15T11:40:41",
-  "description": "## [1.39.2](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.39.1...v1.39.2) (2026-10-15)\n\n### 🐛 Bug Fixes\n\n* **injustice:** support 64-bit apk in survivor buy-ins ([7a720d0](https://github.com/undiluted5317/okish-morphe-patches/commit/7a720d0a9c903e220eb63774cd5ddd0e0fbf8fd2))",
-  "download_url": "https://github.com/undiluted5317/okish-morphe-patches/releases/download/v1.39.2/patches-1.39.2.mpp",
+  "created_at": "2026-10-15T13:57:56",
+  "description": "## [1.40.0](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.39.2...v1.40.0) (2026-10-15)\n\n### ✨ New Features\n\n* **injustice:** state dual-apk support in patch descriptions ([4edf769](https://github.com/undiluted5317/okish-morphe-patches/commit/4edf769028ee8e28a453c9e5c36646d5aa516f60))",
+  "download_url": "https://github.com/undiluted5317/okish-morphe-patches/releases/download/v1.40.0/patches-1.40.0.mpp",
   "signature_download_url": "",
-  "version": "1.39.2"
+  "version": "1.40.0"
 }

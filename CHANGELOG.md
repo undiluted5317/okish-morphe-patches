@@ -1,3 +1,9 @@
+## [1.40.0](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.39.2...v1.40.0) (2026-10-15)
+
+### ✨ New Features
+
+* **injustice:** state dual-apk support in patch descriptions ([4edf769](https://github.com/undiluted5317/okish-morphe-patches/commit/4edf769028ee8e28a453c9e5c36646d5aa516f60))
+
 ## [1.39.2](https://github.com/undiluted5317/okish-morphe-patches/compare/v1.39.1...v1.39.2) (2026-10-15)
 
 ### 🐛 Bug Fixes
